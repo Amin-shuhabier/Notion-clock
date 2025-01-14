@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion Time Wedge</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: monospace;
+        }
+
+        .time-container {
+            display: flex;
+            gap: 4px;
+        }
+
+        .time-block {
+            background-color: black;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .label {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-container">
+        <div class="time-block">
+            <span class="number" id="hours">10</span>
+            <span class="label" id="ampm">PM</span>
+        </div>
+        <div class="time-block">
+            <span class="number" id="minutes">16</span>
+            <span class="label" id="day">MONDAY</span>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            // Update hours (12-hour format)
+            let hours = now.getHours();
+            hours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+            document.getElementById('hours').textContent = hours;
+
+            // Update AM/PM
+            document.getElementById('ampm').textContent = now.getHours() >= 12 ? 'PM' : 'AM';
+
+            // Update minutes
+            document.getElementById('minutes').textContent = String(now.getMinutes()).padStart(2, '0');
+
+            // Update day of week
+            const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            document.getElementById('day').textContent = days[now.getDay()];
+        }
+
+        // Update immediately and then every minute
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>
